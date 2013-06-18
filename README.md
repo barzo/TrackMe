@@ -1,7 +1,7 @@
 TrackMe
 =======
 
-Tracks the location of your mobile device.
+Tracks the location and movement of your mobile device.
 
 This is a PhoneGap application that allows you to determine how frequently your location is recorded, and how frequently the track you are recording is sent to a server so that people with permission are able to monitor your movement.
 

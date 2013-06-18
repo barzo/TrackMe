@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+	<title>TrackMe</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="css/app.css" type="text/css" media="screen">
+	<script src="js/lib/angular.min.js"></script>
+	<script>
+	document.addEventListener("deviceready", onDeviceReady, false);
+
+	function onDeviceReady() {
+		//navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
+		navigator.splashscreen.hide();
+	}
+
+	var onSuccess = function(position) {
+		alert('Latitude: '          + position.coords.latitude          + '\n' +
+			  'Longitude: '         + position.coords.longitude         + '\n' +
+			  'Altitude: '          + position.coords.altitude          + '\n' +
+			  'Accuracy: '          + position.coords.accuracy          + '\n' +
+			  'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
+			  'Heading: '           + position.coords.heading           + '\n' +
+			  'Speed: '             + position.coords.speed             + '\n' +
+			  'Timestamp: '         + position.timestamp                + '\n');
+	};
+
+	function onError(error) {
+		alert('code: ' + error.code + '\n' + 'message: "' + error.message +'"');
+	}
+	</script>
+</head>
+<body>
+<center>
+	<h1>Track Me</h1>
+
+	<div class="button" id="startTracking" onclick="navigator.geolocation.getCurrentPosition(onSuccess, onError);">Start tracking</div>
+	<div class="button" id="showOptions">Options</div>
+</center>
+</body>
+</html>
