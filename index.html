@@ -16,11 +16,7 @@
 	function showLocation(position) {
 		alert('Latitude: '          + position.coords.latitude          + '\n' +
 			  'Longitude: '         + position.coords.longitude         + '\n' +
-			  'Altitude: '          + position.coords.altitude          + '\n' +
-			  'Accuracy: '          + position.coords.accuracy          + '\n' +
-			  'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
-			  'Heading: '           + position.coords.heading           + '\n' +
-			  'Speed: '             + position.coords.speed             + '\n' +
+			  'Accurate to within '   + position.coords.accuracy          + 'm\n' +
 			  'Timestamp: '         + position.timestamp                + '\n');
 	};
 	function locationError(error) {
@@ -46,7 +42,7 @@
 	<h6>v0.0.1</h6>
 
 	<button id="showWhereIam" onclick="navigator.geolocation.getCurrentPosition(showLocation, locationError);">Where am I?</button>
-	<button id="amImoving" onclick="navigator.accelerometer.getCurrentAcceleration(showMovement, accelerometerError);">Am I moving?</button>
+	<button id="amImoving" onclick="navigator.accelerometer.getCurrentAcceleration(showMovement, accelerometerError);alert('Getting current acceleration...');">Am I moving?</button>
 	<!-- <button id="showOptions">Options</button> -->
 </center>
 </body>

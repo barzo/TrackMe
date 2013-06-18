@@ -8,13 +8,13 @@
 	<gap:splash src="splash.png" />
 
 	<plugin name="Accelerometer" value="org.apache.cordova.AccelListener" />
+	<plugin name="Contacts" value="org.apache.cordova.ContactManager" />
 
 	<access origin="*" />
 
 	<preference name="fullscreen" value="true" />
 	<preference name="orientation" value="portrait" />
 
-	<feature name="http://api.phonegap.com/1.0/contacts"/>
 	<feature name="http://api.phonegap.com/1.0/geolocation"/>
 	<feature name="http://api.phonegap.com/1.0/network"/>
 	<feature name="http://api.phonegap.com/1.0/notification"/>
