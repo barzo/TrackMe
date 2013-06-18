@@ -13,7 +13,7 @@
 		navigator.splashscreen.hide();
 	}
 
-	var onSuccess = function(position) {
+	function showLocation(position) {
 		alert('Latitude: '          + position.coords.latitude          + '\n' +
 			  'Longitude: '         + position.coords.longitude         + '\n' +
 			  'Altitude: '          + position.coords.altitude          + '\n' +
@@ -23,18 +23,30 @@
 			  'Speed: '             + position.coords.speed             + '\n' +
 			  'Timestamp: '         + position.timestamp                + '\n');
 	};
-
-	function onError(error) {
+	function locationError(error) {
 		alert('code: ' + error.code + '\n' + 'message: "' + error.message +'"');
 	}
+	
+	function showMovement(acceleration) {
+		alert('Acceleration X: ' + acceleration.x + '\n' +
+			'Acceleration Y: ' + acceleration.y + '\n' +
+			'Acceleration Z: ' + acceleration.z + '\n' +
+			'Timestamp: '      + acceleration.timestamp);
+	}
+
+	function accelerometerError() {
+		alert('Accelerometer Error!');
+	}
+
 	</script>
 </head>
 <body>
 <center>
 	<h1>Track Me</h1>
 
-	<div class="button" id="startTracking" onclick="navigator.geolocation.getCurrentPosition(onSuccess, onError);">Start tracking</div>
-	<div class="button" id="showOptions">Options</div>
+	<button id="showWhereIam" onclick="navigator.geolocation.getCurrentPosition(showLocation, locationError);">Where am I?</button>
+	<button id="amImoving" onclick="navigator.accelerometer.getCurrentAcceleration(showMovement, accelerometerError);">Am I moving?</button>
+	<button id="showOptions">Options</button>
 </center>
 </body>
 </html>
