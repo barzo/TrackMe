@@ -5,13 +5,29 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link rel="stylesheet" href="css/app.css" type="text/css" media="screen">
 	<script src="js/lib/angular.min.js"></script>
+	<script src='js/lib/firebase.js' type='text/javascript'></script>
+	<script src='js/lib/firebase-simple-login.js' type='text/javascript'></script>
 	<script>
 	var trackingTimerID = null;
 	document.addEventListener("deviceready", onDeviceReady, false);
 
+	var db = new Firebase('https://worph.firebaseIO.com');
+	var auth = new FirebaseSimpleLogin(db, function(error, user) {
+		if (error) {
+			// an error occurred while attempting login
+			alert(error);
+		} else if (user) {
+			// user authenticated with Firebase
+			console.log('User ID: ' + user.id + ' authenticated with ' + user.provider +' provider.');
+			document.getElementById('showWhereIam').disabled = false;
+			userId = user.id;
+		} else {
+			// user is logged out
+		}
+	});
 	function onDeviceReady() {
 		//navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
-		navigator.splashscreen.hide();
+		//navigator.splashscreen.hide();
 		trackingTimerID = window.setInterval(trackMe, 5000);
 	}
 	
@@ -36,21 +52,47 @@
 			'Accurate to within ' + position.coords.accuracy          + 'm<br/>' +
 			'Timestamp: '         + position.timestamp                + ''
 		+'</p>' + e.innerHTML;
+
+		db.child(userId).push(position);
 	};
+
 	function locationError(error) {
 		var e = document.getElementById('results');
-		e.innerHTML = '<p class="error">Error ' + error.code + ': ' + error.message +'</p>' + e.innerHTML;
+		var cause;
+		switch (error.code)
+		{
+			case 1: cause = "PERMISSION_DENIED"; break;
+			case 2: cause = "POSITION_UNAVAILABLE"; break;
+			case 3: cause = "TIMEOUT"; break;
+			default: cause = error.code;
+		}
+		e.innerHTML = '<p class="error">' + cause + ': ' + error.message +'</p>' + e.innerHTML;
+		db.child(userId).push(error);
+	}
+
+	function login() {
+		auth.login('password', {
+			email: document.getElementById('emailAddress').value,
+			password: document.getElementById('password').value
+		});
 	}
 	</script>
 </head>
 <body>
 <center>
 	<h1>Track Me</h1>
-	<h6>v0.0.1</h6>
-
-	<button id="showWhereIam" onclick="toggleTrack();">Toggle Tracking</button>
+	<div>
+	<label for="emailAddress">Email</label> <input type="email" id="emailAddress" placeholder="Email">
+	<br/>
+	<label for="password">Password</label> <input type="password" id="password" placeholder="Password">
+	<br/>
+	<button id="login" onclick="login();">Login</button>
+	</div>
+	<div>
+	<button id="showWhereIam" onclick="toggleTrack();" disabled>Toggle Tracking</button>
 	<!-- <button id="showOptions">Options</button> -->
-	
+	</div>
+
 	<div id="results">
 	</div>
 </center>
