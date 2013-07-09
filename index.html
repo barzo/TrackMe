@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="css/app.css" type="text/css" media="screen">
 	<script src="js/lib/angular.min.js"></script>
 	<script>
-	var trackingTimerID;
+	var trackingTimerID = null;
 	document.addEventListener("deviceready", onDeviceReady, false);
 
 	function onDeviceReady() {
@@ -15,6 +15,15 @@
 		trackingTimerID = window.setInterval(trackMe, 5000);
 	}
 	
+	function toggleTrack() {
+		if (trackingTimerID === null) {
+			trackingTimerID = window.setInterval(trackMe, 5000);
+		} else {
+			window.clearInterval(trackingTimerID);
+			trackingTimerID = null;
+		}
+		trackMe();
+	}
 	function trackMe() {
 		navigator.geolocation.getCurrentPosition(showLocation, locationError);
 	}
@@ -39,7 +48,7 @@
 	<h1>Track Me</h1>
 	<h6>v0.0.1</h6>
 
-	<button id="showWhereIam" onclick="trackMe();">Where am I?</button>
+	<button id="showWhereIam" onclick="toggleTrack();">Toggle Tracking</button>
 	<!-- <button id="showOptions">Options</button> -->
 	
 	<div id="results">
