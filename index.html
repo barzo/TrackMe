@@ -54,7 +54,7 @@
 			'Timestamp: '         + position.timestamp                + ''
 		+'</p>' + e.innerHTML;
 
-		db.child(userId).push(position);
+		db.child(userId).child(position.timestamp).set(position.coords);
 	};
 
 	function locationError(error) {
@@ -68,7 +68,7 @@
 			default: cause = error.code;
 		}
 		e.innerHTML = '<p class="error">' + cause + ': ' + error.message +'</p>' + e.innerHTML;
-		db.child(userId).push(error);
+		db.child(userId).child(Date.now()).set(error);
 	}
 
 	function login() {
