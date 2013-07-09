@@ -16,12 +16,13 @@
 	}
 
 	function showLocation(position) {
-		$('#results').prepend('<p>'+
+		var e = document.getElementById('results');
+		e.innerHTML = '<p>'+
 			'Latitude: '          + position.coords.latitude          + '<br/>' +
 			'Longitude: '         + position.coords.longitude         + '<br/>' +
 			'Accurate to within ' + position.coords.accuracy          + 'm<br/>' +
 			'Timestamp: '         + position.timestamp                + ''
-		+'</p>');
+		+'</p>' + e.innerHTML;
 	};
 	function locationError(error) {
 		alert('code: ' + error.code + '\n' + 'message: "' + error.message +'"');
