@@ -6,34 +6,26 @@
 	<link rel="stylesheet" href="css/app.css" type="text/css" media="screen">
 	<script src="js/lib/angular.min.js"></script>
 	<script>
+	var trackingTimerID;
 	document.addEventListener("deviceready", onDeviceReady, false);
 
 	function onDeviceReady() {
 		//navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
 		navigator.splashscreen.hide();
+		trackingTimerID = window.setInterval(navigator.geolocation.getCurrentPosition, 5000, showLocation, locationError);
 	}
 
 	function showLocation(position) {
-		alert('Latitude: '          + position.coords.latitude          + '\n' +
-			  'Longitude: '         + position.coords.longitude         + '\n' +
-			  'Accurate to within '   + position.coords.accuracy          + 'm\n' +
-			  'Timestamp: '         + position.timestamp                + '\n');
+		$('#results').prepend('<p>'+
+			'Latitude: '          + position.coords.latitude          + '<br/>' +
+			'Longitude: '         + position.coords.longitude         + '<br/>' +
+			'Accurate to within ' + position.coords.accuracy          + 'm<br/>' +
+			'Timestamp: '         + position.timestamp                + ''
+		+'</p>');
 	};
 	function locationError(error) {
 		alert('code: ' + error.code + '\n' + 'message: "' + error.message +'"');
 	}
-	
-	function showMovement(acceleration) {
-		alert('Acceleration X: ' + acceleration.x + '\n' +
-			'Acceleration Y: ' + acceleration.y + '\n' +
-			'Acceleration Z: ' + acceleration.z + '\n' +
-			'Timestamp: '      + acceleration.timestamp);
-	}
-
-	function accelerometerError() {
-		alert('Accelerometer Error!');
-	}
-
 	</script>
 </head>
 <body>
@@ -42,8 +34,10 @@
 	<h6>v0.0.1</h6>
 
 	<button id="showWhereIam" onclick="navigator.geolocation.getCurrentPosition(showLocation, locationError);">Where am I?</button>
-	<button id="amImoving" onclick="navigator.accelerometer.getCurrentAcceleration(showMovement, accelerometerError);">Am I moving?</button>
 	<!-- <button id="showOptions">Options</button> -->
+	
+	<div id="results">
+	</div>
 </center>
 </body>
 </html>
