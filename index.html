@@ -9,6 +9,7 @@
 	<script src='js/lib/firebase-simple-login.js' type='text/javascript'></script>
 	<script>
 	var trackingTimerID = null;
+	var pollFrequency = 15 * 60 * 1000;
 	document.addEventListener("deviceready", onDeviceReady, false);
 
 	var db = new Firebase('https://worph.firebaseIO.com');
@@ -28,12 +29,12 @@
 	function onDeviceReady() {
 		//navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
 		//navigator.splashscreen.hide();
-		trackingTimerID = window.setInterval(trackMe, 5000);
+		trackingTimerID = window.setInterval(trackMe, pollFrequency);
 	}
 	
 	function toggleTrack() {
 		if (trackingTimerID === null) {
-			trackingTimerID = window.setInterval(trackMe, 5000);
+			trackingTimerID = window.setInterval(trackMe, pollFrequency);
 		} else {
 			window.clearInterval(trackingTimerID);
 			trackingTimerID = null;
