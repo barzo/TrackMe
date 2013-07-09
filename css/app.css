@@ -1,4 +1,11 @@
 body {
 	color:white;
-	background-color:#3773ff;
+	background-color:#aaf;
+}
+.error {
+	color:#fff;
+	background-color:#f00;
+}
+p {
+	border:1px solid #88f;
 }

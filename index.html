@@ -12,7 +12,11 @@
 	function onDeviceReady() {
 		//navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
 		navigator.splashscreen.hide();
-		trackingTimerID = window.setInterval(navigator.geolocation.getCurrentPosition, 5000, showLocation, locationError);
+		trackingTimerID = window.setInterval(trackMe, 5000);
+	}
+	
+	function trackMe() {
+		navigator.geolocation.getCurrentPosition(showLocation, locationError);
 	}
 
 	function showLocation(position) {
@@ -25,7 +29,8 @@
 		+'</p>' + e.innerHTML;
 	};
 	function locationError(error) {
-		alert('code: ' + error.code + '\n' + 'message: "' + error.message +'"');
+		var e = document.getElementById('results');
+		e.innerHTML = '<p class="error">Error ' + error.code + ': ' + error.message +'</p>' + e.innerHTML;
 	}
 	</script>
 </head>
@@ -34,7 +39,7 @@
 	<h1>Track Me</h1>
 	<h6>v0.0.1</h6>
 
-	<button id="showWhereIam" onclick="navigator.geolocation.getCurrentPosition(showLocation, locationError);">Where am I?</button>
+	<button id="showWhereIam" onclick="trackMe();">Where am I?</button>
 	<!-- <button id="showOptions">Options</button> -->
 	
 	<div id="results">
