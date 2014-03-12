@@ -12,7 +12,8 @@
 	var pollFrequency = 15 * 60 * 1000;
 	document.addEventListener("deviceready", onDeviceReady, false);
 
-	var db = new Firebase('https://worph.firebaseIO.com');
+	// var db = new Firebase('https://worph.firebaseIO.com');
+	var db = new Firebase("https://crackling-fire-7568.firebaseio.com");
 	var auth = new FirebaseSimpleLogin(db, function(error, user) {
 		if (error) {
 			// an error occurred while attempting login
